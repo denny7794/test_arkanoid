@@ -94,6 +94,10 @@
             }
         });
 
+        canvas.addEventListener('touchmove', function (event) {
+            paddleX = event.touches[0].clientX - canvas.getBoundingClientRect().left - 50;
+        });
+
         setInterval(draw, 10);
     </script>
 </body>
