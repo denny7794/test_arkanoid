@@ -25,12 +25,9 @@
 
         // Начальные координаты блоков
         let blocks = [];
-        for (let j = 0; j < 3; j++) {
-            for (let i = 0; i < 10; i++) {
-                blocks.push({ x: 50 + i * 70, y: 50 + j * 30, width: 60, height: 20 });
-            }
+        for (let i = 0; i < 10; i++) {
+            blocks.push({ x: 50 + i * 70, y: 50, width: 60, height: 20 });
         }
-
 
         // Начальные координаты мяча и его скорости
         let dx = 2;
@@ -47,16 +44,11 @@
             ctx.closePath();
 
             // Рисуем ракетку
-            ctx.fillStyle = `#0000ff`;
             ctx.fillRect(paddleX, canvas.height - 10, 100, 10);
 
             // Рисуем блоки
-            let colors = [50, 150, 100];
-            let color_inc = 10;
             blocks.forEach(block => {
-                ctx.fillStyle = `RGB(${colors[0] + color_inc}, ${colors[1] + color_inc}, ${colors[2] + color_inc})`;
                 ctx.fillRect(block.x, block.y, block.width, block.height);
-                color_inc += 3;
             });
 
             // Двигаем мяч
