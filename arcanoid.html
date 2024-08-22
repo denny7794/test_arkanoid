@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Арканоид</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Начальные координаты мяча
+        let ballX = canvas.width / 2;
+        let ballY = canvas.height / 2;
+
+        // Начальные координаты ракетки
+        let paddleX = canvas.width / 2 - 50;
+
+        // Начальные координаты блоков
+        let blocks = [];
+        for (let i = 0; i < 10; i++) {
+            blocks.push({ x: 50 + i * 70, y: 50, width: 60, height: 20 });
+        }
+
+        // Начальные координаты мяча и его скорости
+        let dx = 2;
+        let dy = -2;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Рисуем мяч
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.closePath();
+
+            // Рисуем ракетку
+            ctx.fillRect(paddleX, canvas.height - 10, 100, 10);
+
+            // Рисуем блоки
+            blocks.forEach(block => {
+                ctx.fillRect(block.x, block.y, block.width, block.height);
+            });
+
+            // Двигаем мяч
+            ballX += dx;
+            ballY += dy;
+
+            // Отскакивание мяча от стенок
+            if (ballX + 10 > canvas.width || ballX - 10 < 0) {
+                dx = -dx;
+            }
+            if (ballY - 10 < 0) {
+                dy = -dy;
+            }
+
+            // Отскок мяча от ракетки
+            if (ballY + 10 > canvas.height - 10 && ballX > paddleX && ballX < paddleX + 100) {
+                dy = -dy;
+            }
+
+            // Удаление блоков при столкновении
+            blocks = blocks.filter(block => {
+                if (ballX > block.x && ballX < block.x + block.width && ballY > block.y && ballY < block.y + block.height) {
+                    dy = -dy;
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        setInterval(draw, 10);
+    </script>
+</body>
+
+</html>
